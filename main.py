@@ -1,12 +1,6 @@
-import sys
-from tkinter import Toplevel
-
 import customtkinter
-import numpy
 from customtkinter import filedialog
-import PIL
-from PIL import Image
-import os
+from PIL import Image, ImageTk
 
 customtkinter.set_appearance_mode("system")
 customtkinter.set_default_color_theme("blue")
@@ -17,14 +11,14 @@ root.geometry("500x150")
 
 def open_file():
     filepath = filedialog.askopenfilename()
-    upload_image = customtkinter.CTkImage(Image.open(filepath), size=(702, 496))
+    upload_image = ImageTk.PhotoImage(Image.open(filepath))
     image_window = customtkinter.CTkToplevel(root)
     image_window.title("Zapis EKG")
     image_frame = customtkinter.CTkFrame(master=image_window)
-    image_frame.pack()
+    image_frame.pack(fill="both", expand=True)
     image_label = customtkinter.CTkLabel(master=image_frame, image=upload_image, text=" ")
-    image_label.pack()
-    upload_image.create_scaled_photo_image(1, "system")
+    image_label.pack(fill='both', expand=True)
+
 
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
