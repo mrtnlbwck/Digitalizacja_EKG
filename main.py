@@ -19,6 +19,18 @@ def open_file():
     image_label = customtkinter.CTkLabel(master=image_frame, image=upload_image, text=" ")
     image_label.pack(fill='both', expand=True)
 
+    img = Image.open(filepath)
+    image_rgb = img.convert("RGB")
+    red, green, blue = image_rgb.split()
+
+    red_img = Image.merge("RGB", (red, red, red))
+    green_img = Image.merge("RGB", (green, green, green))
+    blue_img = Image.merge("RGB", (blue, blue, blue))
+
+    red_img.save("red.jpg")
+    green_img.save("green.jpg")
+    blue_img.save("blue.jpg")
+
 
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
@@ -30,3 +42,4 @@ button = customtkinter.CTkButton(master=frame, text="Wgraj obraz", command=lambd
 button.pack(pady=12, padx=10)
 
 root.mainloop()
+
