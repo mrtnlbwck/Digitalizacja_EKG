@@ -1,4 +1,6 @@
 import customtkinter
+import cv2
+import numpy as np
 from customtkinter import filedialog
 from PIL import Image, ImageTk
 
@@ -19,17 +21,20 @@ def open_file():
     image_label = customtkinter.CTkLabel(master=image_frame, image=upload_image, text=" ")
     image_label.pack(fill='both', expand=True)
 
-    img = Image.open(filepath)
-    image_rgb = img.convert("RGB")
-    red, green, blue = image_rgb.split()
+    #image = Image.open(filepath)
+    image = cv2.imread(filepath)
 
-    red_img = Image.merge("RGB", (red, red, red))
-    green_img = Image.merge("RGB", (green, green, green))
-    blue_img = Image.merge("RGB", (blue, blue, blue))
+    image_hsv = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2HSV)
 
-    red_img.save("red.jpg")
-    green_img.save("green.jpg")
-    blue_img.save("blue.jpg")
+    lower_range = np.array([169, 50, 50])
+    upper_range = np.array([189, 255, 255])
+
+    mask = cv2.inRange(image_hsv, lower_range, upper_range)
+
+    cv2.imshow("Image", np.array(image))
+    cv2.imshow("Mask", mask)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 frame = customtkinter.CTkFrame(master=root)
